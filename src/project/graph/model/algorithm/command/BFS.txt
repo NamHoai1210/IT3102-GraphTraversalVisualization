@@ -1,0 +1,5 @@
+BFS(u), Q = {u}
+while !Q.empty
+  for each neighbor v of u = Q.front, Q.pop
+    if v is unvisited, tree edge, Q.push(v)
+    else if v is visited, we ignore this edge

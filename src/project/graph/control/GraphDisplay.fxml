@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="880.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.graph.control.GraphDisplay">
+   <children>
+      <AnchorPane fx:id="root" maxHeight="640.0" maxWidth="800.0" minHeight="640.0" minWidth="800.0" prefHeight="640.0" prefWidth="800.0" style="-fx-background-color: white;" />
+      <Label fx:id="guide" prefHeight="160.0" prefWidth="800.0" style="-fx-background-color: f2f3f4;" textFill="#00000080" wrapText="true" VBox.vgrow="NEVER">
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
+         <font>
+            <Font name="Arial Bold" size="16.0" />
+         </font>
+      </Label>
+      <HBox prefHeight="100.0" prefWidth="800.0" spacing="100.0" style="-fx-background-color: f2f3f4;">
+         <children>
+            <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#loadGraph" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: salmon;" text="Load" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="15.0" />
+               </font>
+            </Button>
+            <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#clearGraph" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: salmon;" text="Clear" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="15.0" />
+               </font>
+            </Button>
+            <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#Done" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: salmon;" text="Done" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="15.0" />
+               </font>
+            </Button>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="120.0" right="120.0" top="20.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>
