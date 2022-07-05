@@ -175,15 +175,10 @@ public class GraphTraversal implements Initializable{
 			timeline.setRate(rate);
 			timeline.setOnFinished(evt ->{
 				context.setPlaying(false);
-				stop.setVisible(false);
-				replay.setVisible(true);
-				replay.toFront();
+				showButton(replay);
 			});
 			controlPane.setVisible(true);
-			replay.setVisible(true);
-			replay.toFront();
-			stop.setVisible(false);
-			run.setVisible(false);
+			showButton(replay);
 			clear(paraPane);
 			break;
 		case 2:
@@ -197,15 +192,10 @@ public class GraphTraversal implements Initializable{
 			timeline.setRate(rate);
 			timeline.setOnFinished(evt ->{
 				context.setPlaying(false);
-				stop.setVisible(false);
-				replay.setVisible(true);
-				replay.toFront();
+				showButton(replay);
 			});
 			controlPane.setVisible(true);
-			replay.setVisible(true);
-			replay.toFront();
-			stop.setVisible(false);
-			run.setVisible(false);
+			showButton(replay);
 			clear(paraPane);
 			break;
 		case 3:
@@ -221,16 +211,10 @@ public class GraphTraversal implements Initializable{
 			isCCClicked = false;
 			timeline.setRate(rate);
 			timeline.setOnFinished(evt ->{
-				context.setPlaying(false);
-				stop.setVisible(false);
-				replay.setVisible(true);
-				replay.toFront();
+				showButton(replay);
 			});
 			controlPane.setVisible(true);
-			replay.setVisible(true);
-			replay.toFront();
-			stop.setVisible(false);
-			run.setVisible(false);
+			showButton(replay);
 			clear(paraPane);
 			break;
 		default:
@@ -241,10 +225,7 @@ public class GraphTraversal implements Initializable{
 		//timeline = new Timeline();
 		timeline.getKeyFrames().add(context.play());
 		timeline.setCycleCount(context.timelineCycleCount());
-		stop.setVisible(true);
-		stop.toFront();
-		run.setVisible(false);
-		replay.setVisible(false);
+		showButton(stop);
 		//System.out.println(status+ " :"+ timeline.getCurrentTime().toSeconds());
 		timeline.play();
 		context.setPlaying(true);
@@ -266,9 +247,7 @@ public class GraphTraversal implements Initializable{
 		timeline.getKeyFrames().add(context.play());
 		timeline.setCycleCount(context.timelineCycleCount());
 		timeline.setRate(rate);
-		stop.setVisible(true);
-		stop.toFront();
-		replay.setVisible(false);
+		showButton(stop);
 		timeline.playFromStart();
 		context.setPlaying(true);
 		
@@ -289,14 +268,14 @@ public class GraphTraversal implements Initializable{
 	public void doStep(MouseEvent event) {
 		if(context.isPlaying()) stop(null);
 		context.playOne();
+		if(context.getStatus()>=context.getNumOfSteps()-1) {
+			showButton(replay);
+		}
 	}
 	public void undoStep(MouseEvent event) {
 		if(context.isPlaying()) stop(null);
 		if(context.getStatus() == context.getNumOfSteps()-1) {
-			run.setVisible(true);
-			run.toFront();
-			stop.setVisible(false);
-			replay.setVisible(false);
+			showButton(run);
 		}
 		context.returnOne();
 	}
@@ -318,19 +297,12 @@ public class GraphTraversal implements Initializable{
 	public void doAll(MouseEvent event) {
 		if(context.isPlaying()) stop(null);
 		context.playAll();
-		stop.setVisible(false);
-		replay.setVisible(true);
-		replay.toFront();
+		showButton(replay);
 	}
 	public void stop(MouseEvent event){
 		timeline.stop();
 		timeline.getKeyFrames().clear();
-		//timeline.stop();
-		run.setVisible(true);
-		run.toFront();
-		stop.setVisible(false);
-		replay.setVisible(false);
-		context.setPlaying(false);
+		showButton(run);
 	}
 	
 	public void onSpeedSelected(ActionEvent event) {
@@ -345,5 +317,13 @@ public class GraphTraversal implements Initializable{
 	public void printGraph() {
 		System.out.println("\nList of Undirected Adj: "+unDirectedGraph.getListAdj());
 		System.out.print("List of Undirected Edge: "+unDirectedGraph.getListEdges());
+	}
+	//Choose show Button replay, play or stop
+	public void showButton(Button button) {
+		run.setVisible(false);
+		stop.setVisible(false);
+		replay.setVisible(false);
+		button.setVisible(true);
+		button.toFront();
 	}
 }

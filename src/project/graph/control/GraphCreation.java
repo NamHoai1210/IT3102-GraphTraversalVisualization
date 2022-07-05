@@ -29,7 +29,6 @@ public class GraphCreation implements Initializable{
 	Scene mainScene;
 	public static final double RADIUS = 20.0f;
 	int id=0;
-	
 	private Rectangle background = new Rectangle(800, 640, Color.TRANSPARENT);;
 	@FXML
 	private Label guide;
@@ -196,11 +195,11 @@ public class GraphCreation implements Initializable{
 	       root.getChildren().add(vertex.getGraphic());
 	}
 	};
-	public void setParaPane(AnchorPane pane) {
-		this.paraPane = pane;
-	}
 	public GraphCreation() {
 		super();
+	}
+	public void setParaPane(AnchorPane pane) {
+		this.paraPane = pane;
 	}
 	public void setMainScene(Scene mainScene) {
 		this.mainScene = mainScene;
