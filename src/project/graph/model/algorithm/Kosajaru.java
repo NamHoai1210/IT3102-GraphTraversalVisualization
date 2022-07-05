@@ -85,6 +85,7 @@ public class Kosajaru extends Algorithm{
     }
 	@Override
 	public void execute() {
+		int number=0;
 		initCompositeStep();
 		int V = this.getGraph().getVertexsSize();
 		Stack<Vertex> stack = new Stack<Vertex>();
@@ -128,10 +129,12 @@ public class Kosajaru extends Algorithm{
                 DFSUtil(v, visited,reverseGraph,subStep);
                 step.addStep(subStep);
                 step.addStep(new CompositeStep(getPseudoCode(6).getContent()));
+                number++;
                 //System.out.println("-Complete to print a SCC\n");
             }else step.addStep(new Detail(" -> "+v.getId()+" is visited, continue"));
         }
         this.addCommand(step);
+        this.addCommand(new Detail("In total, we have " +number+ " Strongly Connected Component(s) as seen above."));
         this.getCompositeStep().presentList(this.getListSteps());
         //this.getCompositeStep().presentConsole();
 	}

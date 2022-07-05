@@ -4,6 +4,7 @@ import java.util.Random;
 
 import javafx.scene.paint.Color;
 import project.graph.model.Vertex;
+import project.graph.model.ui.VertexNode;
 
 public class VertexDetail extends Detail{
 	private Vertex vertex;
@@ -36,14 +37,14 @@ public class VertexDetail extends Detail{
 	}
 	@Override
 	public String presentUI(int time) {
-		if(super.toString().equals("Visit")) vertex.getGraphic().changeTo(3);
+		if(super.toString().equals("Visit")) vertex.getGraphic().changeTo(VertexNode.VISITED);
 		else if(super.toString().equals("Get")) vertex.getGraphic().changeToCustom(Color.rgb(red, green, blue));
-		else if(super.toString().equals("Assign")) vertex.getGraphic().changeTo(3);
-		else if(super.toString().equals("Assign another")) vertex.getGraphic().changeTo(4);
+		else if(super.toString().equals("Assign")) vertex.getGraphic().changeTo(VertexNode.VISITED);
+		else if(super.toString().equals("Assign another")) vertex.getGraphic().changeTo(VertexNode.ANOTHER_STATUS);
 		return this.toString();
 	}
 	@Override
 	public void unPresentUI() {
-		vertex.getGraphic().changeTo(0);
+		vertex.getGraphic().changeTo(VertexNode.ORIGINAL);
 	}
 }

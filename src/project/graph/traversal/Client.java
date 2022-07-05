@@ -5,8 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import project.graph.control.GraphTraversal;
 import project.graph.control.GraphCreation;
-import project.graph.control.GraphDisplay;
 import project.graph.model.Graph;
 
 public class Client extends Application{
@@ -18,18 +18,18 @@ public class Client extends Application{
 		Graph graph = new Graph();
 		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../control/GraphDisplay.fxml"));
 		Parent root = loader.load();
-		GraphDisplay display = loader.getController();
+		GraphCreation creation = loader.getController();
 		FXMLLoader anotherLoader = new FXMLLoader(this.getClass().getResource("../control/GraphCreation.fxml"));
 		Parent anotherRoot = anotherLoader.load();
-		GraphCreation creation = anotherLoader.getController();
+		GraphTraversal traversal = anotherLoader.getController();
 		Scene mainScene = new Scene(anotherRoot);
 		Scene extraScene = new Scene(root);
-		extraScene.setOnKeyPressed(display.getKeyPressed());
-		display.setGraph(graph);
+		extraScene.setOnKeyPressed(creation.getKeyPressed());
 		creation.setGraph(graph);
-		display.setParaPane(creation.getParaPane());
-		creation.setExtraScene(extraScene);
-		display.setMainScene(mainScene);
+		traversal.setGraph(graph);
+		creation.setParaPane(traversal.getParaPane());
+		traversal.setExtraScene(extraScene);
+		creation.setMainScene(mainScene);
 		primaryStage.setScene(mainScene);
 		primaryStage.show();
 		

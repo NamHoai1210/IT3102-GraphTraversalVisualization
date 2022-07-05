@@ -100,6 +100,7 @@ public class BFS extends Algorithm{
             }
             this.addCommand(subStep);
         }
+        this.addCommand(new Detail("BFS("+startPoint+") is completed"));
         this.getCompositeStep().presentList(getListSteps());
 	}
     @Override

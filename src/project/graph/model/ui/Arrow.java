@@ -15,7 +15,10 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public class Arrow extends Group {
-
+	public static final int ORIGINAL =0;
+	public static final int UNDIRECTED =1;
+	public static final int TRIED =2;
+	public static final int UNDIRECTED_TRIED =3;
     private final Line line;
     private  Line arrow1;
     private  Line arrow2;
@@ -26,7 +29,6 @@ public class Arrow extends Group {
             new KeyFrame(Duration.seconds(1), new KeyValue(signalPosition, 1))
     );
     boolean isClicked;
-    boolean isTried;
     //private  Line tmp;
     public Arrow(double sx, double sy, double ex, double ey) {
         this(new Line(sx,sy,ex,ey), new Line(), new Line());
@@ -88,9 +90,6 @@ public class Arrow extends Group {
     }
     public boolean isClicked() {
     	return isClicked;
-    }
-    public boolean isTried() {
-    	return isTried;
     }
     // start/end properties
 
@@ -160,35 +159,30 @@ public class Arrow extends Group {
 	public void changeTo(int status) {
     	//double x,y;
     	switch (status) {
-		case 0:
+		case ORIGINAL:
 			line.strokeProperty().unbind();
 			line.setStroke(Color.DARKGRAY);
 			arrow1.setStroke(Color.DARKGRAY);
 			arrow2.setStroke(Color.DARKGRAY);
 			isClicked = false;
-			isTried=false;
 			break;
-		case 1:
+		case UNDIRECTED:
 			line.strokeProperty().unbind();
 			line.setStroke(Color.DARKGRAY);
 			arrow1.setStroke(Color.TRANSPARENT);
 			arrow2.setStroke(Color.TRANSPARENT);
 			isClicked = false;
-			isTried=false;
 			break;
-		case 2:
+		case TRIED:
 			line.strokeProperty().unbind();
 			line.setStroke(Color.ORANGE);
 			arrow1.setStroke(Color.ORANGE);
 			arrow2.setStroke(Color.ORANGE);
 			isClicked = true;
-			isTried=true;
 			break;
-		case 3:
+		case UNDIRECTED_TRIED:
 			line.strokeProperty().unbind();
 			line.setStroke(Color.ORANGE);
-			isClicked = true;
-			isTried=false;
 			break;
 		default:
 			break;
@@ -213,7 +207,6 @@ public class Arrow extends Group {
 	                    new Stop(1, Color.DARKGRAY)), 
 	            signalPosition));
 	        }
-		isTried = true;
 	}
 }
 

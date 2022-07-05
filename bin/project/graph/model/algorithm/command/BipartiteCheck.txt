@@ -1,0 +1,6 @@
+for each unvisited vertex u 
+ push u to the queue
+  while !Q.empty
+   for each neighbor v of u = Q.front, Q.pop 
+    if v is free, assign another color to v, push v to queue
+    else if u and v have the same color -> exit 

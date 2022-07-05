@@ -1,0 +1,7 @@
+for each unvisited vertex u, fillOrder(u) (~ DFS(u))
+  try all free neighbor v of u, fillOrder(v)
+  finish fillOrder(u), push u to the stack
+transpose the graph
+DFS in order of the list, DFS(u)
+  try all free neighbor v of u, DFS(v)
+each time we complete a DFS, we get an SCC

@@ -4,6 +4,10 @@ import javafx.scene.text.Text;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 public class VertexNode extends StackPane{
+	public static final int ORIGINAL =0;
+	public static final int CLICKED =1;
+	public static final int VISITED =3;
+	public static final int ANOTHER_STATUS =4;
 	private Circle circle = new Circle();
 	private Text text = new Text();
 	private boolean isClicked;
@@ -52,30 +56,25 @@ public class VertexNode extends StackPane{
 	}
 	public void changeTo(int version){
 		switch (version) {
-		case 0:
+		case ORIGINAL:
 			circle.setStroke(Color.GRAY);
 			circle.setFill(Color.WHITE);
 			text.setFill(Color.BLACK);
 			isClicked=false;
 			isDraged = false;
 			break;
-		case 1:
+		case CLICKED:
 			circle.setStroke(Color.SALMON);
 			circle.setFill(Color.SALMON);
 			text.setFill(Color.WHITE);
 			isClicked=true;
 			break;
-		case 2:
-			circle.setStroke(Color.SALMON);
-			circle.setFill(Color.SALMON);
-			text.setFill(Color.WHITE);
-			break;
-		case 3:
+		case VISITED:
 			circle.setStroke(Color.SALMON);
 			circle.setFill(Color.WHITE);
 			text.setFill(Color.SALMON);
 			break;
-		case 4:
+		case ANOTHER_STATUS:
 			circle.setStroke(Color.MEDIUMAQUAMARINE);
 			circle.setFill(Color.WHITE);
 			text.setFill(Color.MEDIUMAQUAMARINE);

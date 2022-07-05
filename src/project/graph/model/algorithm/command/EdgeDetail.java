@@ -2,6 +2,7 @@ package project.graph.model.algorithm.command;
 
 
 import project.graph.model.Edge;
+import project.graph.model.ui.Arrow;
 
 public class EdgeDetail extends Detail{
 	private Edge edge;
@@ -23,7 +24,7 @@ public class EdgeDetail extends Detail{
 	@Override
 	public String presentUI(int time) {
 		if(time ==0) {
-			edge.getGraphic().changeTo(3);
+			edge.getGraphic().changeTo(Arrow.TRIED);
 		}else {
 		edge.getGraphic().getAnimation().playFromStart();
 		edge.getGraphic().effect(time);
@@ -33,9 +34,9 @@ public class EdgeDetail extends Detail{
 	@Override
 	public void unPresentUI() {
 		if(edge.isDirected()) {
-		edge.getGraphic().changeTo(0);}
+		edge.getGraphic().changeTo(Arrow.ORIGINAL);}
 		else {
-			edge.getGraphic().changeTo(1);
+			edge.getGraphic().changeTo(Arrow.UNDIRECTED);
 		}
 	}
 }

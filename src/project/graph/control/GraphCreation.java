@@ -1,348 +1,291 @@
 package project.graph.control;
 
 import java.net.URL;
-import java.util.Optional;
+import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.animation.Timeline;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.RadioMenuItem;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import project.graph.model.Edge;
 import project.graph.model.Graph;
-import project.graph.model.algorithm.BFS;
-import project.graph.model.algorithm.Bipartite;
-import project.graph.model.algorithm.Kosajaru;
+import project.graph.model.Vertex;
+import project.graph.model.ui.Arrow;
+import project.graph.model.ui.VertexNode;
 
 public class GraphCreation implements Initializable{
-	Graph graph;
-	Graph reverseGraph;
-	Graph unDirectedGraph;
-	Scene extraScene;
-	Kosajaru kosajaru;
-	Bipartite bipartite;
-	BFS bfs;
-	Timeline timeline=null;
-	Context context;
+	private Graph graph=new Graph();
+	private Arrow arrow;
+	Scene mainScene;
+	public static final double RADIUS = 20.0f;
+	int id=0;
+	
+	private Rectangle background = new Rectangle(800, 640, Color.TRANSPARENT);;
 	@FXML
-	ComboBox<String> comboBox;
+	private Label guide;
 	@FXML
-	Label label;
-	@FXML
-	AnchorPane root1;
-	@FXML
-	Button stop;
-	@FXML
-	Button run;
-	@FXML
-	Button	replay;
-	@FXML
-	Slider slider;
-	@FXML
-	Button doStep;
-	@FXML
-	Button undoStep;
-	@FXML
-	GridPane controlPane;
-	@FXML
-	Label title;
-	@FXML
-	AnchorPane codePane;
-	@FXML
-	VBox codeBox;
-	@FXML
-	StackPane stackPane;
-	@FXML
-	Button codeShow;
-	@FXML
-	Button cc;
-	@FXML
-	Button doAll;
-	@FXML
-	MenuButton speedButton;
-	@FXML
-	RadioMenuItem standard;
-	@FXML
-	AnchorPane paraPane;
-	AnchorPane createPane;
-	double rate;
-	boolean isCodeShowed;
-	boolean isCCClicked;
-	RadioMenuItem currentSpeed=null;
-	Rectangle cover = new Rectangle(800,640);
-	TextInputDialog dialog;
-	String menu;
-	int startPoint;
-	ObservableList<String> list = FXCollections.observableArrayList("Create Graph","Kosajaru Algorithm","Bipartite Graph Checker for BFS","BFS Algorithm");
-	public String getMenu() {
-		return menu;
+	private AnchorPane root;
+	private AnchorPane paraPane;
+	private EventHandler<MouseEvent> mouseMoved = new EventHandler<MouseEvent>() {
+    	@Override
+    	 public void handle(MouseEvent evt) {
+    		Double x = evt.getX()-arrow.getStartX();
+			Double y = evt.getY()-arrow.getStartY();
+			Double xy = Math.sqrt(x*x + y*y);
+			x = (x/xy)*RADIUS;
+			y = (y/xy)*RADIUS;
+    		arrow.setEnd(evt.getX()-x/2, evt.getY()-y/2);
+    	}
+	};
+	private EventHandler<KeyEvent> keyPressed = new EventHandler<KeyEvent>() {
+		public void handle(KeyEvent k) {
+			if(k.getCode()==KeyCode.DELETE) {
+				int i;
+				for(i=0;i<graph.getVertexsSize();i++) {
+					if(graph.getVertex(i).getGraphic().isClicked()) {
+						root.getChildren().remove(graph.getVertex(i).getGraphic());
+						List<Edge> delEdges = graph.delVertex(i);
+					//System.out.println(delEdges);
+						for(int j= 0;j<delEdges.size();j++) {
+							root.getChildren().remove(delEdges.get(j).getGraphic());
+						}
+						break;
+					}
+				}
+				if(i==graph.getVertexsSize()) {
+				for(i=0;i<graph.getEdgeSize();i++) {
+					if(graph.getEdge(i).getGraphic().isClicked()) {
+						root.getChildren().remove(graph.getEdge(i).getGraphic());
+						graph.delEdge(i);
+						break;
+					}
+				}}
+				
+			}
+		}
+	};
+	private EventHandler<MouseEvent> arrowMouseClicked = new EventHandler<MouseEvent>() {
+		public void handle(MouseEvent evt) {
+			Arrow tmp =((Arrow) evt.getSource());
+			if(tmp.isClicked()) {tmp.changeTo(0);return;}
+			int i;
+			for(i=0;i<graph.getVertexsSize();i++) {
+				if(graph.getVertex(i).getGraphic().isClicked()) {
+					graph.getVertex(i).getGraphic().changeTo(0);
+					break;}
+			}
+			if(i==graph.getVertexsSize()) {
+			for(i=0;i<graph.getEdgeSize();i++) {
+				if(graph.getEdge(i).getGraphic().isClicked()) {
+					graph.getEdge(i).getGraphic().changeTo(0);
+					break;}
+			}}
+			 tmp.changeTo(2);
+			//arrow.changeTo(2);
+		};
+	};
+	private EventHandler<MouseEvent> vertexMouseClicked = new EventHandler<MouseEvent>() {
+		@Override
+		public void handle(MouseEvent e) {
+			VertexNode v = ((VertexNode)e.getSource());
+			Vertex vertex = graph.getAVertex(Integer.parseInt(v.getText()));
+			if(!vertex.getGraphic().isDraged() && vertex.getGraphic().isClicked()) {
+				vertex.getGraphic().changeTo(0);
+			}else {
+				int i;
+				for(i=0;i<graph.getVertexsSize();i++) {
+					if(graph.getVertex(i).getGraphic().equals(vertex.getGraphic())) continue;
+					if(graph.getVertex(i).getGraphic().isClicked()) break;
+				}
+				
+				if(i==graph.getVertexsSize()) {
+					for(i=0;i<graph.getEdgeSize();i++) {
+						if(graph.getEdge(i).getGraphic().isClicked()) {
+							graph.getEdge(i).getGraphic().changeTo(0);
+							break;}
+					}
+					vertex.getGraphic().changeTo(1);
+				}
+				else {
+					if(graph.getVertex(i).getGraphic().isDraged()) {
+					Edge edge = graph.getEdge(vertex,graph.getVertex(i));
+					Double x = vertex.getGraphic().getX()-arrow.getStartX();
+					Double y = vertex.getGraphic().getY()-arrow.getStartY();
+					Double xy = Math.sqrt(x*x + y*y);
+					if(edge==null) {
+					x = (x/xy)*RADIUS;
+					y = (y/xy)*RADIUS;}
+					else {
+						Double angle = Math.asin(Math.abs(x)/xy);
+						angle = 45.0-angle;
+						if(x<0) x = Math.cos(angle)*RADIUS*-1;
+						else x = Math.cos(angle)*RADIUS;
+						if(y<0) y = Math.sin(angle)*RADIUS*-1;
+						else y = Math.sin(angle)*RADIUS;
+						edge.getGraphic().setEnd(graph.getVertex(i).getGraphic().getX()+x, graph.getVertex(i).getGraphic().getY()+y);
+					}
+					arrow.setEnd(vertex.getGraphic().getX()-x, vertex.getGraphic().getY()-y);
+					arrow.toBack();
+					background.toBack();
+					graph.getVertex(i).getGraphic().changeTo(0);
+					graph.addEdge(new Edge(true, graph.getVertex(i),vertex, arrow));
+					root.removeEventFilter(MouseEvent.MOUSE_MOVED, mouseMoved);
+					}else {
+						vertex.getGraphic().changeTo(1);
+						graph.getVertex(i).getGraphic().changeTo(0);
+					}
+				}
+				
+			}
+		};
+	};
+	private EventHandler<MouseEvent> vertexMouseDragged = new EventHandler<MouseEvent>() {
+		@Override
+		public void handle(MouseEvent e) {
+			VertexNode v = ((VertexNode)e.getSource());
+			Vertex vertex = graph.getAVertex(Integer.parseInt(v.getText()));
+			if(vertex.getGraphic().isClicked()) {
+				arrow = new Arrow(vertex.getGraphic().getX(),vertex.getGraphic().getY(),vertex.getGraphic().getX(),vertex.getGraphic().getY());
+				arrow.changeTo(0);
+				background.toBack();
+				arrow.addEventFilter(MouseEvent.MOUSE_CLICKED,arrowMouseClicked);
+				//arrow.setStart(vertex.getX(),vertex.getY());
+				root.getChildren().add(arrow);
+				vertex.getGraphic().setDraged(true);
+				root.addEventFilter(MouseEvent.MOUSE_MOVED,mouseMoved);
+			}
+			
+		}
+	};
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		guide.setText("click on the empty space to add an edge\n"
+				+ "Click on one vertex and join the other vertex to add an edge\n"
+				+ "click on top or edge + press 'delete' to delete one");
+		background.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseClicked);
+		id = graph.getVertexsSize();
+		graph.initGraph(root);
+		root.getChildren().add(background);
+		background.toBack();
+		
+	}
+	
+	private EventHandler<MouseEvent> mouseClicked = new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent mouseEvent) {
+		Vertex vertex = new Vertex(id);
+	       vertex.getGraphic().addEventFilter(MouseEvent.MOUSE_CLICKED, vertexMouseClicked);
+	vertex.getGraphic().addEventFilter(MouseEvent.DRAG_DETECTED, vertexMouseDragged);      
+	       vertex.getGraphic().setXY(mouseEvent.getX(), mouseEvent.getY());
+	       graph.addVertex(vertex);
+	       id++;
+	       Double y = mouseEvent.getY()-RADIUS;
+	       Double x = mouseEvent.getX()-RADIUS;
+	       AnchorPane.setTopAnchor(vertex.getGraphic(), y);
+	       AnchorPane.setLeftAnchor(vertex.getGraphic(), x);
+	       root.getChildren().add(vertex.getGraphic());
+	}
+	};
+	public void setParaPane(AnchorPane pane) {
+		this.paraPane = pane;
+	}
+	public GraphCreation() {
+		super();
+	}
+	public void setMainScene(Scene mainScene) {
+		this.mainScene = mainScene;
+	}
+	public EventHandler<KeyEvent> getKeyPressed() {
+		return keyPressed;
+	}
+	
+	public Label getGuide() {
+		return guide;
 	}
 	public void setGraph(Graph graph) {
 		this.graph = graph;
+		createSampleGraph();
+	}
+	public AnchorPane getRoot() {
+		return root;
+	}
+	@FXML
+	public void clearGraph(MouseEvent event) {
+		graph.getListVertexs().clear();
+		graph.getListEdges().clear();
+		graph.getListAdj().clear();
+		id=0;
+		root.getChildren().clear();
+		root.getChildren().add(background);
+	}
+	@FXML
+	public void Done(MouseEvent event) {
+		Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		paraPane.getChildren().clear();
 		graph.initGraph(paraPane);
-		paraPane.getChildren().add(cover);
-		kosajaru = new Kosajaru(graph, root1);
+		primaryStage.setScene(mainScene);
 	}
-	public void setExtraScene(Scene extraScene) {
-		this.extraScene = extraScene;
+	@FXML
+	public void loadGraph(MouseEvent event) {
+		id = graph.getVertexsSize();
+		graph.initGraph(root);
+		root.getChildren().add(background);
+		background.toBack();
 	}
-	public void setCreatePane(AnchorPane pane) {
-		this.createPane = pane;
+	public void createVertex(Graph graph, Double x,Double y) {
+		Vertex vertex = new Vertex(graph.getVertexsSize());
+	       vertex.getGraphic().addEventFilter(MouseEvent.MOUSE_CLICKED, vertexMouseClicked);
+	vertex.getGraphic().addEventFilter(MouseEvent.DRAG_DETECTED, vertexMouseDragged);      
+	       vertex.getGraphic().setXY(x,y);
+	       y = y-RADIUS;
+	       x = x-RADIUS;
+	       AnchorPane.setTopAnchor(vertex.getGraphic(), y);
+	       AnchorPane.setLeftAnchor(vertex.getGraphic(), x);
+	       graph.addVertex(vertex);
 	}
-	@Override
-	public void initialize(URL location, ResourceBundle resource) {
-		comboBox.setItems(list);
-		AnchorPane.setTopAnchor(cover, 0.0);
-		AnchorPane.setLeftAnchor(cover, 0.0);
-		cover.setFill(Color.TRANSPARENT);
-		timeline = new Timeline();
-		label.setVisible(false);
-		isCCClicked = false;
-		controlPane.setVisible(false);
-		codePane.setVisible(false);
-		codeShow.setVisible(false);
-		isCodeShowed = false;
-		currentSpeed = standard;
-		currentSpeed.setSelected(true);
-		speedButton.setText(currentSpeed.getText()+"x");
-		rate = Double.parseDouble(currentSpeed.getText());
-		paraPane.toFront();
-		context = new Context();
-		context.setGUI(slider, codeBox,label);
-		dialog = new TextInputDialog("0");
-		startPoint=0;
-		dialog.setTitle("Breadth First Search");
-		dialog.setHeaderText(null);
-		dialog.setContentText("set start Vertex:");
-	}
-	public AnchorPane getParaPane() {
-		return paraPane;
-	}
-	public void clickCC(MouseEvent evt) {
-		if(isCCClicked==false) {
-		label.setVisible(true);
-		isCCClicked=true;}
+	public void createEdge (Graph graph, Vertex v1, Vertex v2) {
+		Arrow arrow = new Arrow(v1.getGraphic().getX(),v1.getGraphic().getY(),v1.getGraphic().getX(),v1.getGraphic().getY());
+		arrow.changeTo(0);
+		arrow.addEventFilter(MouseEvent.MOUSE_CLICKED,arrowMouseClicked);
+		Edge edge = graph.getEdge(v2,v1);
+		Double x = v2.getGraphic().getX()-arrow.getStartX();
+		Double y = v2.getGraphic().getY()-arrow.getStartY();
+		Double xy = Math.sqrt(x*x + y*y);
+		if(edge==null) {
+		x = (x/xy)*RADIUS;
+		y = (y/xy)*RADIUS;}
 		else {
-			label.setVisible(false);
-			isCCClicked=false;
+			Double angle = Math.asin(Math.abs(x)/xy);
+			angle = 45.0-angle;
+			if(x<0) x = Math.cos(angle)*RADIUS*-1;
+			else x = Math.cos(angle)*RADIUS;
+			if(y<0) y = Math.sin(angle)*RADIUS*-1;
+			else y = Math.sin(angle)*RADIUS;
+			edge.getGraphic().setEnd(v1.getGraphic().getX()+x, v1.getGraphic().getY()+y);
 		}
+		arrow.setEnd(v2.getGraphic().getX()-x, v2.getGraphic().getY()-y);
+		graph.addEdge(new Edge(true, v1,v2, arrow));
 	}
-	public void comboBoxChange(ActionEvent event) {
-		int i;
-		menu = comboBox.getValue();
-		for(i=0;i<list.size();i++) {
-			if(menu.equals(list.get(i))) break;
-		}
-		slider.setValue(0);
-		switch (i) {
-		case 0:
-			Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			primaryStage.setScene(extraScene);
-			title.setText("Graph Traversal: Create Graph");
-			codeShow.setVisible(false);
-			paraPane.toFront();
-			paraPane.setVisible(true);
-			controlPane.setVisible(false);
-			label.setVisible(false);
-			clear(root1);
-			
-			break;
-		case 1:
-			codeShow.setVisible(true);
-			title.setText("Graph Traversal: Kosajaru Algorithm");
-			isCCClicked = false;
-			init(root1,graph);
-			context.setUpAlgorithm(kosajaru);
-			timeline.setRate(rate);
-			timeline.setOnFinished(evt ->{
-				context.setPlaying(false);
-				stop.setVisible(false);
-				replay.setVisible(true);
-				replay.toFront();
-			});
-			controlPane.setVisible(true);
-			replay.setVisible(true);
-			replay.toFront();
-			stop.setVisible(false);
-			run.setVisible(false);
-			clear(paraPane);
-			break;
-		case 2:
-			unDirectedGraph=graph.convertToUndirectedGraph();
-			init(root1,unDirectedGraph);
-			bipartite = new Bipartite(unDirectedGraph, root1);
-			codeShow.setVisible(true);
-			title.setText("Graph Traversal: Bipartite Graph Checker for BFS");
-			isCCClicked = false;
-			context.setUpAlgorithm(bipartite);
-			timeline.setRate(rate);
-			timeline.setOnFinished(evt ->{
-				context.setPlaying(false);
-				stop.setVisible(false);
-				replay.setVisible(true);
-				replay.toFront();
-			});
-			controlPane.setVisible(true);
-			replay.setVisible(true);
-			replay.toFront();
-			stop.setVisible(false);
-			run.setVisible(false);
-			clear(paraPane);
-			break;
-		case 3:
-			Optional<String> result = dialog.showAndWait();
-			result.ifPresent(name -> {
-				startPoint = Integer.parseInt(name);
-			});
-			init(root1,graph);
-			bfs= new BFS(graph, root1, startPoint);
-			codeShow.setVisible(true);
-			title.setText("Graph Traversal: Breadth First Search");
-			isCCClicked = false;
-			context.setUpAlgorithm(bfs);
-			timeline.setRate(rate);
-			timeline.setOnFinished(evt ->{
-				context.setPlaying(false);
-				stop.setVisible(false);
-				replay.setVisible(true);
-				replay.toFront();
-			});
-			controlPane.setVisible(true);
-			replay.setVisible(true);
-			replay.toFront();
-			stop.setVisible(false);
-			run.setVisible(false);
-			clear(paraPane);
-			break;
-		default:
-			break;
-		}
-	}
-	public void mouseClickedBtn(MouseEvent event) {
-		//timeline = new Timeline();
-		timeline.getKeyFrames().add(context.play());
-		timeline.setCycleCount(context.timelineCycleCount());
-		stop.setVisible(true);
-		stop.toFront();
-		run.setVisible(false);
-		replay.setVisible(false);
-		//System.out.println(status+ " :"+ timeline.getCurrentTime().toSeconds());
-		timeline.play();
-		context.setPlaying(true);
-		//timeline.play();
-		
-		
-	}
-	public void replay(MouseEvent event) {
-		//init(root1,graph);
-		label.setText("");
-		if(comboBox.getValue().equals("Bipartite Graph Checker for BFS")) {
-			unDirectedGraph.initGraph(root1);
-		}
-		else {
-			graph.initGraph(root1);
-		}
-		context.setStatus(0);
-		timeline.getKeyFrames().clear();
-		timeline.getKeyFrames().add(context.play());
-		timeline.setCycleCount(context.timelineCycleCount());
-		timeline.setRate(rate);
-		stop.setVisible(true);
-		stop.toFront();
-		replay.setVisible(false);
-		timeline.playFromStart();
-		context.setPlaying(true);
-		
-	}
-	public void init(AnchorPane root,Graph variant) {
-		label.setText("");
-		root.toFront();
-		variant.initGraph(root);
-		root.getChildren().add(cover);
-		cover.toFront();
-		root.setVisible(true);
-	}
-	public void clear(AnchorPane root) {
-		root.getChildren().clear();
-		root.setVisible(false);
-	}
-	public void doStep(MouseEvent event) {
-		if(context.isPlaying()) stop(null);
-		context.playOne();
-	}
-	public void undoStep(MouseEvent event) {
-		if(context.isPlaying()) stop(null);
-		if(context.getStatus() == context.getNumOfSteps()-1) {
-			run.setVisible(true);
-			run.toFront();
-			stop.setVisible(false);
-			replay.setVisible(false);
-		}
-		context.returnOne();
-	}
-	public void showCode(MouseEvent event) {
-		if(isCodeShowed==false) {
-		codePane.setVisible(true);
-		stackPane.setLayoutX(20);
-		label.setLayoutX(120);
-		controlPane.setPrefWidth(840);
-		isCodeShowed = true;
-		}else {
-			codePane.setVisible(false);
-			stackPane.setLayoutX(200);
-			label.setLayoutX(300);
-			controlPane.setPrefWidth(1200);
-			isCodeShowed = false;
-		}
-	}
-	public void doAll(MouseEvent event) {
-		if(context.isPlaying()) stop(null);
-		context.playAll();
-		stop.setVisible(false);
-		replay.setVisible(true);
-		replay.toFront();
-	}
-	public void stop(MouseEvent event){
-		timeline.stop();
-		timeline.getKeyFrames().clear();
-		//timeline.stop();
-		run.setVisible(true);
-		run.toFront();
-		stop.setVisible(false);
-		replay.setVisible(false);
-		context.setPlaying(false);
-	}
-	
-	public void onSpeedSelected(ActionEvent event) {
-		currentSpeed.setSelected(false);
-		currentSpeed = ((RadioMenuItem)event.getSource());
-		currentSpeed.setSelected(true);
-		speedButton.setText(currentSpeed.getText()+"x");
-		rate = Double.parseDouble(currentSpeed.getText());
-		timeline.setRate(rate);
-		
-	}
-	public void printGraph() {
-		System.out.println("\nList of Undirected Adj: "+unDirectedGraph.getListAdj());
-		System.out.print("List of Undirected Edge: "+unDirectedGraph.getListEdges());
+	public void createSampleGraph(){
+		createVertex(graph, 400.0, 150.0);
+		createVertex(graph, 150.0, 150.0);
+		createVertex(graph, 150.0, 320.0);
+		createVertex(graph, 650.0, 150.0);
+		createVertex(graph, 650.0, 320.0);
+		createEdge(graph, graph.getVertex(1), graph.getVertex(0));
+		createEdge(graph, graph.getVertex(2), graph.getVertex(1));
+		createEdge(graph, graph.getVertex(0), graph.getVertex(2));
+		createEdge(graph, graph.getVertex(0), graph.getVertex(3));
+		createEdge(graph, graph.getVertex(3), graph.getVertex(4));
 	}
 }
