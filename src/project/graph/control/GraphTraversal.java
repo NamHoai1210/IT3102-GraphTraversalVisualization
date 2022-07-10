@@ -3,7 +3,6 @@ package project.graph.control;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,19 +26,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import project.graph.model.Graph;
 import project.graph.model.algorithm.BFS;
 import project.graph.model.algorithm.Bipartite;
 import project.graph.model.algorithm.Kosajaru;
+import project.graph.model.graph.Graph;
 
 public class GraphTraversal implements Initializable{
 	Graph graph;
 	Graph reverseGraph;
 	Graph unDirectedGraph;
 	Scene extraScene;
-	Kosajaru kosajaru;
-	Bipartite bipartite;
-	BFS bfs;
 	Timeline timeline=null;
 	Context context;
 	@FXML
@@ -124,7 +120,7 @@ public class GraphTraversal implements Initializable{
 		currentSpeed = standard;
 		currentSpeed.setSelected(true);
 		speedButton.setText(currentSpeed.getText()+"x");
-		rate = Double.parseDouble(currentSpeed.getText());
+		rate = Double.parseDouble(currentSpeed.getText())*1.5;
 		paraPane.toFront();
 		context = new Context();
 		context.setGUI(slider, codeBox,label);
@@ -166,12 +162,12 @@ public class GraphTraversal implements Initializable{
 			clear(root1);
 			break;
 		case 1:
-			kosajaru = new Kosajaru(graph, root1);
+			Kosajaru kosajaru = new Kosajaru(graph, root1);
 			context.setUpAlgorithm(kosajaru);
 			title.setText("Graph Traversal: Kosajaru Algorithm");
+			init(root1,graph);
 			codeShow.setVisible(true);
 			isCCClicked = false;
-			init(root1,graph);
 			timeline.setRate(rate);
 			timeline.setOnFinished(evt ->{
 				context.setPlaying(false);
@@ -183,11 +179,11 @@ public class GraphTraversal implements Initializable{
 			break;
 		case 2:
 			unDirectedGraph=graph.convertToUndirectedGraph();
-			bipartite = new Bipartite(unDirectedGraph, root1);
+			Bipartite bipartite = new Bipartite(unDirectedGraph, root1);
 			context.setUpAlgorithm(bipartite);
 			title.setText("Graph Traversal: Bipartite Graph Checker for BFS");
-			codeShow.setVisible(true);
 			init(root1,unDirectedGraph);
+			codeShow.setVisible(true);
 			isCCClicked = false;
 			timeline.setRate(rate);
 			timeline.setOnFinished(evt ->{
@@ -203,7 +199,7 @@ public class GraphTraversal implements Initializable{
 			result.ifPresent(name -> {
 				startPoint = Integer.parseInt(name);
 			});
-			bfs= new BFS(graph, root1, startPoint);
+			BFS bfs= new BFS(graph, root1, startPoint);
 			context.setUpAlgorithm(bfs);
 			title.setText("Graph Traversal: Breadth First Search");
 			init(root1,graph);
@@ -211,6 +207,7 @@ public class GraphTraversal implements Initializable{
 			isCCClicked = false;
 			timeline.setRate(rate);
 			timeline.setOnFinished(evt ->{
+				context.setPlaying(false);
 				showButton(replay);
 			});
 			controlPane.setVisible(true);
@@ -267,6 +264,9 @@ public class GraphTraversal implements Initializable{
 	}
 	public void doStep(MouseEvent event) {
 		if(context.isPlaying()) stop(null);
+		if(context.getStatus()==0) {
+			showButton(run);
+		}
 		context.playOne();
 		if(context.getStatus()>=context.getNumOfSteps()-1) {
 			showButton(replay);
@@ -310,13 +310,9 @@ public class GraphTraversal implements Initializable{
 		currentSpeed = ((RadioMenuItem)event.getSource());
 		currentSpeed.setSelected(true);
 		speedButton.setText(currentSpeed.getText()+"x");
-		rate = Double.parseDouble(currentSpeed.getText());
+		rate = Double.parseDouble(currentSpeed.getText())*1.5;
 		timeline.setRate(rate);
 		
-	}
-	public void printGraph() {
-		System.out.println("\nList of Undirected Adj: "+unDirectedGraph.getListAdj());
-		System.out.print("List of Undirected Edge: "+unDirectedGraph.getListEdges());
 	}
 	//Choose show Button replay, play or stop
 	public void showButton(Button button) {

@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Scanner;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import project.graph.model.Graph;
 import project.graph.model.algorithm.command.Step;
+import project.graph.model.graph.Graph;
 import project.graph.model.algorithm.command.CompositeStep;
 import project.graph.model.algorithm.command.PseudoCode;
 public abstract class Algorithm {

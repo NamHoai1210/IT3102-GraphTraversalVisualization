@@ -1,4 +1,4 @@
-package project.graph.model;
+package project.graph.model.graph;
 import java.util.List;
 
 import javafx.scene.layout.AnchorPane;
@@ -48,15 +48,6 @@ public class Graph {
 		if(index<0 || index >=this.getVertexsSize()) return null;
         return listVertexs.get(index);
 	}
-	public Vertex getAVertex(int id) {
-		for(int i=0;i<listVertexs.size();i++) {
-			if(listVertexs.get(i).getId()==id) return listVertexs.get(i);
-		}
-		return null;
-	}
-	public int getVertexsSize() {
-		return listVertexs.size();
-	}
 	public int getVertexIndex(Vertex v) {
 		return listVertexs.indexOf(v);
 	}
@@ -99,6 +90,15 @@ public class Graph {
 		}
 		listVertexs.remove(v);
 		return delEdges;
+	}
+	public Vertex getAVertex(int id) {
+		for(int i=0;i<listVertexs.size();i++) {
+			if(listVertexs.get(i).getId()==id) return listVertexs.get(i);
+		}
+		return null;
+	}
+	public int getVertexsSize() {
+		return listVertexs.size();
 	}
 	//Adjacent List
 	public List<Vertex> getAdjList(Vertex v){

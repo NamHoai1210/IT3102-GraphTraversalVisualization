@@ -61,7 +61,7 @@
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <GridPane fx:id="controlPane" layoutY="650.0" prefHeight="50.0" prefWidth="1200.0" style="-fx-background-color: #00000081;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="650.0">
+            <GridPane fx:id="controlPane" layoutY="650.0" prefHeight="50.0" prefWidth="1200.0" style="-fx-background-color: #0000009c;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="650.0">
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="80.0" minWidth="80.0" prefWidth="80.0" />
@@ -77,7 +77,7 @@
                <children>
                   <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
-                        <Button fx:id="run" mnemonicParsing="false" onMouseClicked="#mouseClickedBtn" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #00000081;" textAlignment="CENTER" textFill="#f8f7f7" wrapText="true">
+                        <Button fx:id="run" mnemonicParsing="false" onMouseClicked="#mouseClickedBtn" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #00000000;" textAlignment="CENTER" textFill="#f8f7f7" wrapText="true">
                            <font>
                               <Font name="Arial Bold" size="15.0" />
                            </font>
@@ -89,7 +89,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="stop" mnemonicParsing="false" onMouseClicked="#stop" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #00000081;" textAlignment="CENTER" textFill="#f8f7f7" wrapText="true">
+                        <Button fx:id="stop" mnemonicParsing="false" onMouseClicked="#stop" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #00000000;" textAlignment="CENTER" textFill="#f8f7f7" wrapText="true">
                            <font>
                               <Font name="Arial Bold" size="15.0" />
                            </font>
@@ -101,7 +101,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="replay" mnemonicParsing="false" onMouseClicked="#replay" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #00000081;" textAlignment="CENTER" textFill="#f8f7f7" wrapText="true">
+                        <Button fx:id="replay" mnemonicParsing="false" onMouseClicked="#replay" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #00000000;" textAlignment="CENTER" textFill="#f8f7f7" wrapText="true">
                            <font>
                               <Font name="Arial Bold" size="15.0" />
                            </font>
@@ -120,7 +120,7 @@
                         <Insets left="30.0" right="30.0" />
                      </padding>
                   </Slider>
-                  <Button fx:id="cc" mnemonicParsing="false" onMouseClicked="#clickCC" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #00000081;" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.columnIndex="5">
+                  <Button fx:id="cc" mnemonicParsing="false" onMouseClicked="#clickCC" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #00000000;" textAlignment="CENTER" textFill="WHITE" wrapText="true" GridPane.columnIndex="5">
                      <font>
                         <Font name="Arial Bold" size="15.0" />
                      </font>
@@ -132,7 +132,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="doStep" mnemonicParsing="false" onMouseClicked="#doStep" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #00000081;" textAlignment="CENTER" textFill="#f8f7f7" wrapText="true" GridPane.columnIndex="2">
+                  <Button fx:id="doStep" mnemonicParsing="false" onMouseClicked="#doStep" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #00000000;" textAlignment="CENTER" textFill="#f8f7f7" wrapText="true" GridPane.columnIndex="2">
                      <font>
                         <Font name="Arial Bold" size="14.0" />
                      </font>
@@ -144,7 +144,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="undoStep" mnemonicParsing="false" onMouseClicked="#undoStep" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #00000081;" textAlignment="CENTER" textFill="#f8f7f7" wrapText="true">
+                  <Button fx:id="undoStep" mnemonicParsing="false" onMouseClicked="#undoStep" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #00000000;" textAlignment="CENTER" textFill="#f8f7f7" wrapText="true">
                      <font>
                         <Font name="Arial Bold" size="15.0" />
                      </font>
@@ -156,7 +156,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="doAll" mnemonicParsing="false" onMouseClicked="#doAll" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #00000081;" textFill="WHITE" GridPane.columnIndex="6">
+                  <Button fx:id="doAll" mnemonicParsing="false" onMouseClicked="#doAll" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #00000000;" textFill="WHITE" GridPane.columnIndex="6">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
@@ -168,7 +168,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <MenuButton fx:id="speedButton" mnemonicParsing="false" popupSide="TOP" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #00000081;" text="1x" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="4">
+                  <MenuButton fx:id="speedButton" mnemonicParsing="false" popupSide="TOP" prefHeight="50.0" prefWidth="80.0" style="-fx-background-color: #00000000;" text="1x" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="4">
                      <font>
                         <Font name="Arial Bold" size="15.0" />
                      </font>

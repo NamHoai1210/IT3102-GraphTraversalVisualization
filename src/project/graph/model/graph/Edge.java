@@ -1,4 +1,4 @@
-package project.graph.model;
+package project.graph.model.graph;
 
 import project.graph.model.ui.Arrow;
 

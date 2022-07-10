@@ -4,14 +4,14 @@ import java.util.LinkedList;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import project.graph.model.Edge;
-import project.graph.model.Graph;
-import project.graph.model.Vertex;
 import project.graph.model.algorithm.command.CompositeStep;
 import project.graph.model.algorithm.command.Detail;
 import project.graph.model.algorithm.command.EdgeDetail;
 import project.graph.model.algorithm.command.Step;
 import project.graph.model.algorithm.command.VertexDetail;
+import project.graph.model.graph.Edge;
+import project.graph.model.graph.Graph;
+import project.graph.model.graph.Vertex;
 public class Bipartite extends Algorithm{
 	public Bipartite(Graph graph){
         super(graph);

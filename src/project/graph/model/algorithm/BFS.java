@@ -1,12 +1,12 @@
 package project.graph.model.algorithm;
 
-import project.graph.model.Graph;
-import project.graph.model.Vertex;
 import project.graph.model.algorithm.command.CompositeStep;
 import project.graph.model.algorithm.command.Detail;
 import project.graph.model.algorithm.command.EdgeDetail;
 import project.graph.model.algorithm.command.Step;
 import project.graph.model.algorithm.command.VertexDetail;
+import project.graph.model.graph.Graph;
+import project.graph.model.graph.Vertex;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -29,15 +29,21 @@ public class BFS extends Algorithm{
 		super(graph, root);
 		String filename = "src/project/graph/model/algorithm/command/BFS.txt";
 		this.loadListPseudoCodes(filename);
+		if(startPoint<0) startPoint = 0;
+		else if (startPoint> getGraph().getVertexsSize()-1) startPoint =getGraph().getVertexsSize()-1;
 		this.startPoint = startPoint;
 		setCurrentCode(getPseudoCode(0));
 	}
 	public BFS(Graph graph, String filename, AnchorPane root,int startPoint) {
 		super(graph, filename, root);
+		if(startPoint<0) startPoint = 0;
+		else if (startPoint> getGraph().getVertexsSize()-1) startPoint =getGraph().getVertexsSize()-1;
 		this.startPoint = startPoint;
 	}
 	public BFS(Graph graph, String filename,int startPoint) {
 		super(graph, filename);
+		if(startPoint<0) startPoint = 0;
+		else if (startPoint> getGraph().getVertexsSize()-1) startPoint =getGraph().getVertexsSize()-1;
 		this.startPoint = startPoint;
 	}
 	
@@ -45,6 +51,8 @@ public class BFS extends Algorithm{
 		return startPoint;
 	}
 	public void setStartPoint(int startPoint) {
+		if(startPoint<0) startPoint = 0;
+		else if (startPoint> getGraph().getVertexsSize()-1) startPoint =getGraph().getVertexsSize()-1;
 		this.startPoint = startPoint;
 	}
 	@Override

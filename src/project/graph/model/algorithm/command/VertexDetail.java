@@ -3,7 +3,7 @@ package project.graph.model.algorithm.command;
 import java.util.Random;
 
 import javafx.scene.paint.Color;
-import project.graph.model.Vertex;
+import project.graph.model.graph.Vertex;
 import project.graph.model.ui.VertexNode;
 
 public class VertexDetail extends Detail{

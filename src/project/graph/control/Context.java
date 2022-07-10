@@ -10,9 +10,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import project.graph.model.algorithm.Algorithm;
-import project.graph.model.algorithm.BFS;
-import project.graph.model.algorithm.Bipartite;
-import project.graph.model.algorithm.Kosajaru;
 
 public class Context {
 	private Algorithm algorithm;
@@ -48,19 +45,20 @@ public class Context {
 	public void setUpAlgorithm(Algorithm alt){
 		status =0;
 		algorithm= alt;
-		if(alt instanceof BFS) {
+		/*if(alt instanceof BFS) {
 			System.out.print("-> BFS Algorithm ");
 		}else if(alt instanceof Bipartite) {
 			System.out.print("-> Bipartite Checker for BFS ");
 		}else if(alt instanceof Kosajaru) {
 			System.out.print("-> Kosajaru Algorithm ");
 		}
-		long start = System.nanoTime();
+		long start = System.nanoTime();*/
 		algorithm.execute();
-		long end = System.nanoTime();
-        System.out.println("Execution time in nano seconds: "+(end-start));
+		/*long end = System.nanoTime();
+        System.out.println("Execution time in nano seconds: "+(end-start));*/
 		slider.setMax(algorithm.getListStepSize()-1);
 		createCodeBox();
+		isPlaying = false;
 	}
 	public void setGUI(Slider slider,VBox codeBox,Label label) {
 		this.slider=slider;

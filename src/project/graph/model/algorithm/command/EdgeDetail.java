@@ -1,7 +1,7 @@
 package project.graph.model.algorithm.command;
 
 
-import project.graph.model.Edge;
+import project.graph.model.graph.Edge;
 import project.graph.model.ui.Arrow;
 
 public class EdgeDetail extends Detail{

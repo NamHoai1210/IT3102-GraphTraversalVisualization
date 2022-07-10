@@ -6,9 +6,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import project.graph.model.Vertex;
 import project.graph.model.algorithm.command.*;
-import project.graph.model.Graph;
+import project.graph.model.graph.Graph;
+import project.graph.model.graph.Vertex;
 
 public class Kosajaru extends Algorithm{
 	Graph reverseGraph;

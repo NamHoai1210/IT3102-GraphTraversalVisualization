@@ -17,14 +17,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import project.graph.model.Edge;
-import project.graph.model.Graph;
-import project.graph.model.Vertex;
+import project.graph.model.graph.Edge;
+import project.graph.model.graph.Graph;
+import project.graph.model.graph.Vertex;
 import project.graph.model.ui.Arrow;
 import project.graph.model.ui.VertexNode;
 
 public class GraphCreation implements Initializable{
-	private Graph graph=new Graph();
+	private Graph graph;
 	private Arrow arrow;
 	Scene mainScene;
 	public static final double RADIUS = 20.0f;
@@ -172,11 +172,12 @@ public class GraphCreation implements Initializable{
 				+ "Click on one vertex and join the other vertex to add an edge\n"
 				+ "click on top or edge + press 'delete' to delete one");
 		background.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseClicked);
+		graph = new Graph();
+		createSampleGraph();
 		id = graph.getVertexsSize();
 		graph.initGraph(root);
 		root.getChildren().add(background);
 		background.toBack();
-		
 	}
 	
 	private EventHandler<MouseEvent> mouseClicked = new EventHandler<MouseEvent>() {
@@ -211,10 +212,10 @@ public class GraphCreation implements Initializable{
 	public Label getGuide() {
 		return guide;
 	}
-	public void setGraph(Graph graph) {
-		this.graph = graph;
-		createSampleGraph();
+	public Graph getGraph() {
+		return graph;
 	}
+	
 	public AnchorPane getRoot() {
 		return root;
 	}
