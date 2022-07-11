@@ -25,6 +25,8 @@ public class Client extends Application{
 		extraScene.setOnKeyPressed(creation.getKeyPressed());
 		traversal.setGraph(creation.getGraph());
 		creation.setParaPane(traversal.getParaPane());
+		traversal.setCreatePane(creation.getRoot());
+		traversal.setBackGround(creation.getBackGround());
 		traversal.setExtraScene(extraScene);
 		creation.setMainScene(mainScene);
 		primaryStage.setScene(mainScene);

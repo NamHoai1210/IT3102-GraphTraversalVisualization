@@ -84,6 +84,7 @@ public class GraphTraversal implements Initializable{
 	boolean isCCClicked;
 	RadioMenuItem currentSpeed=null;
 	Rectangle cover = new Rectangle(800,640);
+	Rectangle background;
 	TextInputDialog dialog;
 	String menu;
 	int startPoint;
@@ -103,6 +104,10 @@ public class GraphTraversal implements Initializable{
 	}
 	public void setCreatePane(AnchorPane pane) {
 		this.createPane = pane;
+	}
+	public void setBackGround(Rectangle background) {
+		this.background = background;
+		
 	}
 	@Override
 	public void initialize(URL location, ResourceBundle resource) {
@@ -152,6 +157,9 @@ public class GraphTraversal implements Initializable{
 		switch (i) {
 		case 0:
 			Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			graph.initGraph(createPane);
+			createPane.getChildren().add(background);
+			background.toBack();
 			primaryStage.setScene(extraScene);
 			title.setText("Graph Traversal: Create Graph");
 			codeShow.setVisible(false);
@@ -159,6 +167,13 @@ public class GraphTraversal implements Initializable{
 			paraPane.setVisible(true);
 			controlPane.setVisible(false);
 			label.setVisible(false);
+			if(isCodeShowed==true){
+			codePane.setVisible(false);
+			stackPane.setLayoutX(200);
+			label.setLayoutX(300);
+			controlPane.setPrefWidth(1200);
+			isCodeShowed = false;
+		}
 			clear(root1);
 			break;
 		case 1:

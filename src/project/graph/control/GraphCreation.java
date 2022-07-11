@@ -25,6 +25,7 @@ import project.graph.model.ui.VertexNode;
 
 public class GraphCreation implements Initializable{
 	private Graph graph;
+	private Graph backUpGraph;
 	private Arrow arrow;
 	Scene mainScene;
 	public static final double RADIUS = 20.0f;
@@ -168,9 +169,9 @@ public class GraphCreation implements Initializable{
 	};
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		guide.setText("click on the empty space to add an edge\n"
+		guide.setText("Click on the empty space to add an edge\n"
 				+ "Click on one vertex and join the other vertex to add an edge\n"
-				+ "click on top or edge + press 'delete' to delete one");
+				+ "Click on top or edge + press 'delete' to delete one");
 		background.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseClicked);
 		graph = new Graph();
 		createSampleGraph();
@@ -178,6 +179,8 @@ public class GraphCreation implements Initializable{
 		graph.initGraph(root);
 		root.getChildren().add(background);
 		background.toBack();
+		backUpGraph=new Graph();
+		graph.copyTo(backUpGraph);
 	}
 	
 	private EventHandler<MouseEvent> mouseClicked = new EventHandler<MouseEvent>() {
@@ -215,7 +218,9 @@ public class GraphCreation implements Initializable{
 	public Graph getGraph() {
 		return graph;
 	}
-	
+	public Rectangle getBackGround() {
+		return background;
+	}
 	public AnchorPane getRoot() {
 		return root;
 	}
@@ -230,13 +235,16 @@ public class GraphCreation implements Initializable{
 	}
 	@FXML
 	public void Done(MouseEvent event) {
+		graph.copyTo(backUpGraph);
 		Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		paraPane.getChildren().clear();
 		graph.initGraph(paraPane);
 		primaryStage.setScene(mainScene);
 	}
 	@FXML
-	public void loadGraph(MouseEvent event) {
+	public void Cancel(MouseEvent event) {
+		backUpGraph.copyTo(graph);
+		graph.copyTo(backUpGraph);
 		id = graph.getVertexsSize();
 		graph.initGraph(root);
 		root.getChildren().add(background);

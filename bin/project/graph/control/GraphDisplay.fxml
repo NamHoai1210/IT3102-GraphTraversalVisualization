@@ -22,7 +22,7 @@
       </Label>
       <HBox prefHeight="100.0" prefWidth="800.0" spacing="100.0" style="-fx-background-color: f2f3f4;">
          <children>
-            <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#loadGraph" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: salmon;" text="Load" textFill="WHITE">
+            <Button alignment="CENTER" mnemonicParsing="false" onMouseClicked="#Cancel" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: salmon;" text="Cancel" textFill="WHITE">
                <font>
                   <Font name="Arial Bold" size="15.0" />
                </font>

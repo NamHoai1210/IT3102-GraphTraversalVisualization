@@ -18,7 +18,6 @@ public class Arrow extends Group {
 	public static final int ORIGINAL =0;
 	public static final int UNDIRECTED =1;
 	public static final int TRIED =2;
-	public static final int UNDIRECTED_TRIED =3;
     private final Line line;
     private  Line arrow1;
     private  Line arrow2;
@@ -173,14 +172,14 @@ public class Arrow extends Group {
 			arrow2.setStroke(Color.TRANSPARENT);
 			isClicked = false;
 			break;
-		case TRIED:
+		/*case TRIED:
 			line.strokeProperty().unbind();
 			line.setStroke(Color.ORANGE);
 			arrow1.setStroke(Color.ORANGE);
 			arrow2.setStroke(Color.ORANGE);
 			isClicked = true;
-			break;
-		case UNDIRECTED_TRIED:
+			break;*/
+		case TRIED:
 			line.strokeProperty().unbind();
 			line.setStroke(Color.ORANGE);
 			break;

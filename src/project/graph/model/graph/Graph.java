@@ -224,6 +224,20 @@ public class Graph {
 		}
 		return result;
 	}
+	public void copyTo(Graph result) {
+		result.listEdges.clear();
+		result.listVertexs.clear();
+		result.listAdj.clear();
+		
+		int i;
+		for(i=0;i<listVertexs.size();i++) {
+			result.addVertex(listVertexs.get(i));
+		}
+		for(i=0;i<listEdges.size();i++) {
+			result.addEdge(listEdges.get(i));
+		}
+		
+	}
 	//InitGraph
 	public void initGraph() {
 		for(int i = 0;i<listVertexs.size();i++) {
