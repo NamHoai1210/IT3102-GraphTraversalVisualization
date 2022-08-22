@@ -182,6 +182,7 @@ public class Arrow extends Group {
 		case TRIED:
 			line.strokeProperty().unbind();
 			line.setStroke(Color.ORANGE);
+			isClicked = true;
 			break;
 		default:
 			break;

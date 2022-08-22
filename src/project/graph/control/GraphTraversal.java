@@ -318,6 +318,7 @@ public class GraphTraversal implements Initializable{
 		timeline.stop();
 		timeline.getKeyFrames().clear();
 		showButton(run);
+		context.setPlaying(false);
 	}
 	
 	public void onSpeedSelected(ActionEvent event) {
